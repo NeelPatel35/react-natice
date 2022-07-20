@@ -1,84 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text, Image, TextInput, StyleSheet, BackHandler, ScrollView, TouchableOpacity, FlatList } from 'react-native'
-import { photosUrl } from './src/utils/url'
-import Axios from 'axios';
+// In App.js in a new project
 
-export default function App() {
-  const [postData, setPostData] = useState([])
-  useEffect(() => {
-    fetchApiData();
-  }, []);
-
-  const fetchApiData = async () => {
-    try {
-      const response = await Axios.get(photosUrl);
-      setPostData(response.data)
-      // console.log("response",response.data)
-    } catch (error) {
-      console.log(error, "get error")
-    }
-  }
+import React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './src/homeScreen';
+import Screen1 from './src/screen1';
+import Screen2 from './src/screen2';
 
 
+const Stack = createNativeStackNavigator();
+
+function App() {
   return (
-    <View style={style.container}>
-      <ScrollView style={style.scrollViewStyle}>
-        {
-          postData.map((list, index) => {
-            return (
-              <View style={style.cardContainer} key={index}>
-                <Image source={{ uri: list.url }} style={style.cardImage} />
-                <Text style={style.cardTextTitle}>
-                  {list.title}
-                </Text>
-              </View>
-            )
-          })
-        }
-      </ScrollView>
-    </View>
-  )
+    <NavigationContainer>
+      <Stack.Navigator>
+        {/* <Stack.Screen name="Home" component={HomeScreen} options={{header:true}}/> */}
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Screen1" component={Screen1} />
+        <Stack.Screen name="Screen2" component={Screen2} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
 
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-  },
-  scrollViewStyle: {
-
-  },
-  cardContainer: {
-    width: "98%",
-    margin:2,
-    // backgroundColor: 'lightblue',
-    marginVertical: 20,
-    paddingHorizontal: 10,
-    paddingVertical: 20,
-    borderRadius: 20,
-    shadowOffset: {
-      width: 0,
-      height: 0
-    },
-    shadowOpacity: 0.8,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  cardImage: {
-    height: 250,
-    width: "100%",
-    borderRadius: 25,
-  },
-  cardTextTitle: {
-    marginVertical: 10,
-    textAlign: "center",
-
-  },
-  inputBox: {
-    borderWidth: 2,
-    borderColor: "black",
-    margin: 10,
-    padding: 2,
-    width: "90vw"
-  }
-})
+export default App;
