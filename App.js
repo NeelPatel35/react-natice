@@ -1,55 +1,108 @@
-import React from 'react'
-import { View, Text, StatusBar } from 'react-native'
-import {customStyle} from './style';
+import * as React from 'react';
+import { View, Text, Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function App() {
+
+// function HomeScreen({ navigation }) {
+//   return (
+//     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+//       <Text>Home Screen</Text>
+//       <Button
+//         title="Go to Profile"
+//         onPress={() =>
+//           navigation.navigate('Profile', { name: 'Custom profile header' })
+//         }
+//       />
+//     </View>
+//   );
+// }
+function HomeScreen({ navigation }) {
   return (
-    <View style={customStyle.mainContainer}>
-      <StatusBar backgroundColor={"red"} />
-      <Text style={customStyle.text} >Neel</Text>
-      <View style={customStyle.shap}>
-        <Text>Hello ):( </Text>
-      </View>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
+      <Button
+        title="Go to Profile"
+        onPress={() =>
+          navigation.setOptions({ title: "Updated!!" })
+        }
+      />
     </View>
-  )
+  );
+}
+
+function ProfileScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Profile screen</Text>
+      <Button title="Go back" onPress={() => navigation.goBack()} />
+    </View>
+  );
+}
+// function StackScreen() {
+//   return (
+//     <Stack.Navigator>
+//       <Stack.Screen
+//         name="Home"
+//         component={HomeScreen}
+//         options={{
+//           title: 'My home...',
+//           headerStyle: {
+//             backgroundColor: '#f4511e',
+//           },
+//           headerTintColor: '#fff',
+//           headerTitleStyle: {
+//             fontWeight: 'bold',
+//           },
+//         }}
+//       />
+//     </Stack.Navigator>
+//   );
+// }
+
+function LogoTitle() {
+  return (
+    <Image
+      style={{ width: 50, height: 50 }}
+      // source={require('@expo/snack-static/react-native-logo.png')}
+    />
+  );
 }
 
 
+const Stack = createNativeStackNavigator();
 
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{
+        headerStyle: {
+          backgroundColor: 'black',
+        },
+        headerTintColor: '#fff',
+      }}>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          // options={{
+          //   title: 'My home...',
+          // }}
+          options={{ headerTitle: (props) => <LogoTitle {...props} /> }}
 
+        />
+        {/* <Stack.Screen
+          name="Home"
+          component={StackScreen}
+          options={{ title: false }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          // options={({ route }) => ({ title: route.params.name })}
+        /> */}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export default function App() {
-//   return (
-//     <View style={{ flex: 1 }}>
-//       {/* TO SHOW ALL PROPERTY OF STATUSBAR TO PRESS CTR+SPACE */}
-//       <StatusBar backgroundColor={"red"} />
-//       {/* <StatusBar hidden={true} backgroundColor={"red"} /> */}
-//       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-//         <Text style={{ fontSize: 20, fontWeight: "bold", color: "red" }}>Hello </Text>
-//       </View>
-//       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-//         <Text>World!</Text>
-//       </View>
-//       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-//         <Text>Awesome</Text>
-//       </View>
-//     </View>
-//   )
-// }
+export default App;
